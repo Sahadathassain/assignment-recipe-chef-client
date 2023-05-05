@@ -1,11 +1,16 @@
-import React from "react";
+import React, { } from "react";
 
-const ref = React.createRef();
 
 const Blogs = () => {
+  // const ref = useRef();
+  // const option = {
+  //   orientation: "landscape",
+  //   unit: "in",
+  //   format: [1, 1],
+  // };
   return (
     <div>
-      <div ref={ref}>
+      <div >
         <div className="p-4 mb-5 rounded-md bg-gradient-to-r from-orange-500 to-purple-400 ">
           <h1 className="font-semibold text-2xl">
             1.Tell us the difference between nodejs and express js.?
@@ -58,13 +63,17 @@ const Blogs = () => {
         </div>
       </div>
       {/* <div className="text-center my-4">
-        <Pdf targetRef={ref} filename="code-example.pdf" scale={1}>
+        <ReactToPd
+          targetRef={ref}
+          filename="code-example.pdf"
+          // option={option}
+          scale={0.6}>
           {({ toPdf }) => (
             <button className="btn btn-primary p-4" onClick={toPdf}>
               Generate Pdf
             </button>
           )}
-        </Pdf>
+        </ReactToPd>
       </div> */}
     </div>
   );
