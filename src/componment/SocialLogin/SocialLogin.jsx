@@ -1,51 +1,65 @@
-
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FaGoogle, FaGithub } from "react-icons/fa";
-
-import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthProvider/AuthProvider";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SocialLogin = () => {
-  const { signInWithGoogle, signInWithGithub } = useContext(AuthContext);
+  const {
+    signInWithGoogle,
+    signInWithGithub,
+  } = useContext(AuthContext);
+
   const navigate = useNavigate();
   const location = useLocation();
+
   const from = location.state?.from?.pathname || "/";
 
-  const handleGoogleSignIn = () => {
-    signInWithGoogle()
-      .then(() => {
-        console.log("Signed in with Google successfully!");
-        navigate(from, { replace: true });
-      })
-      .catch((error) => {
-        console.error("Error signing in with Google:", error.message);
-      });
-  };
+  const [error, setError] = useState("");
 
-  const handleGithubSignIn = () => {
-    signInWithGithub()
-      .then(() => {
-        console.log("Signed in with Github successfully!");
+  const handleSocialLogin = (loginMethod) => {
+    setError("");
+
+    loginMethod()
+      .then((result) => {
+        console.log(result.user);
         navigate(from, { replace: true });
       })
       .catch((error) => {
-        console.error("Error signing in with Github:", error.message);
+        console.error(error);
+        setError("Unable to sign in. Please try again.");
       });
   };
 
   return (
-    <div className="flex gap-4">
+    <div className="w-full">
+      {/* Error */}
+      {error && (
+        <div
+          className="mb-4 rounded-xl border border-[#C2412D]/20 bg-[#C2412D]/5 px-4 py-3 text-center text-sm text-[#C2412D]"
+          role="alert"
+        >
+          {error}
+        </div>
+      )}
+
+      {/* Google */}
       <button
-        onClick={handleGoogleSignIn}
-        className="bg-white text-gray-700 rounded-full px-4 py-2 flex items-center gap-2 shadow-xl transition duration-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        <FaGoogle />
-        <span>Sign In with Google</span>
+        type="button"
+        onClick={() => handleSocialLogin(signInWithGoogle)}
+        className="mb-3 flex w-full items-center justify-center gap-3 rounded-xl border border-[#14532D]/15 bg-white px-5 py-3.5 text-sm font-semibold text-[#17201A] transition-all duration-200 hover:border-[#14532D]/30 hover:bg-[#F5F7F2] hover:shadow-sm"
+      >
+        <FaGoogle className="text-[#C2412D]" />
+        <span>Continue with Google</span>
       </button>
+
+      {/* GitHub */}
       <button
-        onClick={handleGithubSignIn}
-        className="bg-gray-800 text-white rounded-full px-4 py-2 flex items-center gap-2 shadow-md transition duration-300 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        type="button"
+        onClick={() => handleSocialLogin(signInWithGithub)}
+        className="flex w-full items-center justify-center gap-3 rounded-xl bg-[#17201A] px-5 py-3.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-[#14532D] hover:shadow-md"
+      >
         <FaGithub />
-        <span>Sign In with Github</span>
+        <span>Continue with GitHub</span>
       </button>
     </div>
   );
