@@ -15,7 +15,11 @@ const firebaseConfig = {
   messagingSenderId: import.meta.env.VITE_MESSAGINGSENDERID,
   appId: import.meta.env.VITE_APPID,
 };
-
+console.log("Firebase config check:", {
+  apiKey: firebaseConfig.apiKey ? "PRESENT" : "MISSING",
+  authDomain: firebaseConfig.authDomain,
+  projectId: firebaseConfig.projectId,
+});
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
