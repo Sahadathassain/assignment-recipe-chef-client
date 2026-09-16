@@ -6,7 +6,7 @@ const PopularRecipes = () => {
   const [chefs, setChefs] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:6001/recipes")
+   fetch(`${import.meta.env.VITE_API_URL}/recipes`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Failed to fetch recipes");
