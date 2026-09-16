@@ -13,7 +13,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 
-import app from "../../firebase/";
+import app from "../../firebase/firebase.config";
 
 export const AuthContext = createContext(null);
 
