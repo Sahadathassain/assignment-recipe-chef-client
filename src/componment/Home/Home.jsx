@@ -11,7 +11,7 @@ const Home = () => {
   const [chifslider, setChifSlider] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:6001/chifslider")
+    fetch(`${import.meta.env.VITE_API_URL}/chifslider`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Failed to fetch chef data");

@@ -38,7 +38,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:6001/recipes/${params.id}`),
+         fetch(`${import.meta.env.VITE_API_URL}/recipes/${params.id}`),
       },
     ],
   },

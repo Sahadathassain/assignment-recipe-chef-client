@@ -2,9 +2,9 @@ import React from "react";
 import { useLoaderData } from "react-router-dom";
 import {
   FaHeart,
-  FaRegHeart,
   FaStar,
   FaArrowRight,
+  FaClock,
 } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,224 +20,292 @@ const Recipes = () => {
     bio,
     likes,
     number_of_recipes,
-    recipe,
+    recipe = [],
   } = recipes;
 
-  const isLiked = likes > 0;
-
   const handleFavoriteBtn = (event) => {
-    toast.success("Added Favorite");
+    toast.success("Added to Favorites");
+
     event.currentTarget.disabled = true;
-    event.currentTarget.classList.add("opacity-60", "cursor-not-allowed");
+    event.currentTarget.classList.add(
+      "opacity-60",
+      "cursor-not-allowed"
+    );
   };
 
   return (
-    <main className="min-h-screen bg-[#F5F7F2]">
+    <main className="min-h-screen bg-[#F5F7F2] text-[#17201A]">
 
-      {/* Chef Profile Hero */}
-      <section className="px-4 py-6 sm:px-6 lg:px-8 lg:py-10">
-        <div className="mx-auto max-w-7xl overflow-hidden rounded-3xl bg-[#14532D] shadow-lg">
+      {/* ==================================================
+          CHEF PROFILE
+      ================================================== */}
+      <section className="px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+        <div className="mx-auto max-w-7xl">
 
-          <div className="grid lg:grid-cols-2">
+          <div className="overflow-hidden rounded-2xl border border-[#14532D]/10 bg-white">
 
-            {/* Chef Image */}
-            <div className="relative h-[400px] sm:h-[500px] lg:h-[560px]">
-              <LazyLoadImage
-                src={chef_picture}
-                alt={chef_name}
-                effect="blur"
-                className="h-full w-full object-cover"
-              />
+            <div className="grid items-center md:grid-cols-[280px_1fr] lg:grid-cols-[340px_1fr]">
 
-              <div className="absolute inset-0 bg-gradient-to-t from-[#17201A]/60 via-transparent to-transparent" />
-            </div>
+              {/* Chef Image */}
+              <div className="h-[300px] bg-[#E9EEE7] sm:h-[340px] md:h-full">
+                <LazyLoadImage
+                  src={chef_picture}
+                  alt={chef_name}
+                  effect="blur"
+                  className="h-full w-full object-cover"
+                />
+              </div>
 
-            {/* Chef Information */}
-            <div className="flex items-center px-7 py-12 sm:px-12 lg:px-14">
-              <div className="max-w-xl">
+              {/* Chef Information */}
+              <div className="px-6 py-8 sm:px-9 lg:px-12">
 
-                <div className="mb-5 flex items-center gap-3">
-                  <span className="h-px w-10 bg-[#C2412D]" />
+                <div className="mb-3 flex items-center gap-3">
+                  <span className="h-px w-8 bg-[#C2412D]" />
 
-                  <span className="text-xs font-bold uppercase tracking-[0.25em] text-white/70">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#14532D]">
                     Chef Profile
                   </span>
                 </div>
 
-                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
+                <h1 className="text-3xl font-bold tracking-tight text-[#17201A] sm:text-4xl">
                   {chef_name}
                 </h1>
 
-                <p className="mt-6 text-base leading-7 text-white/70">
+                <p className="mt-4 max-w-2xl text-sm leading-6 text-[#17201A]/60 sm:text-base">
                   {bio}
                 </p>
 
                 {/* Stats */}
-                <div className="mt-8 grid max-w-md grid-cols-2 border-y border-white/15 py-5">
+                <div className="mt-7 flex flex-wrap gap-8 border-t border-[#14532D]/10 pt-6">
+
                   <div>
                     <div className="flex items-center gap-2">
-                      {isLiked ? (
-                        <FaHeart className="text-[#C2412D]" />
-                      ) : (
-                        <FaRegHeart className="text-white/60" />
-                      )}
+                      <FaHeart className="text-sm text-[#C2412D]" />
 
-                      <span className="text-2xl font-bold text-white">
+                      <span className="text-xl font-bold text-[#14532D]">
                         {likes}
                       </span>
                     </div>
 
-                    <p className="mt-1 text-xs uppercase tracking-wider text-white/50">
+                    <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#17201A]/45">
                       Likes
                     </p>
                   </div>
 
-                  <div className="border-l border-white/15 pl-6">
-                    <p className="text-2xl font-bold text-white">
+                  <div className="border-l border-[#14532D]/10 pl-8">
+                    <p className="text-xl font-bold text-[#14532D]">
                       {number_of_recipes}
                     </p>
 
-                    <p className="mt-1 text-xs uppercase tracking-wider text-white/50">
+                    <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#17201A]/45">
                       Recipes
                     </p>
                   </div>
-                </div>
 
+                </div>
               </div>
+
             </div>
           </div>
         </div>
       </section>
 
-      {/* Recipes */}
-      <section className="px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+
+      {/* ==================================================
+          RECIPES
+      ================================================== */}
+      <section className="px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
         <div className="mx-auto max-w-7xl">
 
           {/* Section Header */}
-          <div className="mb-10">
-            <div className="mb-3 flex items-center gap-3">
-              <span className="h-px w-10 bg-[#C2412D]" />
+          <div className="mb-8">
+            <div className="mb-2 flex items-center gap-3">
+              <span className="h-px w-8 bg-[#C2412D]" />
 
-              <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#14532D]">
+              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#14532D]">
                 From the Kitchen
               </span>
             </div>
 
-            <h2 className="text-3xl font-bold tracking-tight text-[#17201A] sm:text-4xl">
-              Recipes by {chef_name}
-            </h2>
+            <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+              <div>
+                <h2 className="text-3xl font-bold tracking-tight text-[#17201A] sm:text-4xl">
+                  Recipes by {chef_name}
+                </h2>
 
-            <p className="mt-3 text-sm text-[#17201A]/55 sm:text-base">
-              Explore signature recipes and discover something delicious.
-            </p>
+                <p className="mt-2 text-sm text-[#17201A]/55">
+                  Explore signature recipes and discover something delicious.
+                </p>
+              </div>
+
+              <span className="text-xs font-semibold text-[#14532D]">
+                {recipe.length} Recipes
+              </span>
+            </div>
           </div>
 
+
           {/* Recipe Grid */}
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div className="grid gap-5 lg:grid-cols-3">
+
             {recipe.map((item, index) => (
               <article
                 key={item.id || index}
-                className="group overflow-hidden rounded-2xl border border-[#14532D]/10 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                className="group overflow-hidden rounded-2xl border border-[#14532D]/10 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
               >
 
-                {/* Recipe Image */}
-                <div className="relative h-56 overflow-hidden">
+                {/* ==================================================
+                    FOOD IMAGE
+                ================================================== */}
+                <div className="relative aspect-[4/3] overflow-hidden bg-[#E9EEE7]">
+
                   <LazyLoadImage
                     src={item.recipe_img}
                     alt={item.recipe_name}
                     effect="blur"
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
 
-                  <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#17201A]/60 to-transparent" />
-
                   {/* Recipe Number */}
-                  <span className="absolute left-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-xs font-bold text-[#14532D] shadow-sm">
-                    0{index + 1}
+                  <span className="absolute left-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/95 text-[10px] font-bold text-[#14532D] shadow-sm">
+                    {String(index + 1).padStart(2, "0")}
                   </span>
 
                   {/* Rating */}
-                  <div className="absolute bottom-4 right-4 flex items-center gap-1 rounded-full bg-white/95 px-3 py-1.5 shadow-sm">
-                    <FaStar className="text-sm text-[#C2412D]" />
+                  <div className="absolute right-4 top-4 flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 shadow-sm">
+                    <FaStar className="text-[10px] text-[#C2412D]" />
 
-                    <span className="text-xs font-bold text-[#17201A]">
+                    <span className="text-[10px] font-bold text-[#17201A]">
                       {item.rating}
                     </span>
                   </div>
                 </div>
 
-                {/* Recipe Content */}
-                <div className="p-6">
 
-                  <h3 className="text-xl font-bold leading-tight text-[#17201A] sm:text-2xl">
+                {/* ==================================================
+                    CONTENT
+                ================================================== */}
+                <div className="p-5">
+
+                  <h3 className="text-xl font-bold leading-6 text-[#17201A]">
                     {item.recipe_name}
                   </h3>
 
+
                   {/* Ingredients */}
                   <div className="mt-6">
-                    <h4 className="text-xs font-bold uppercase tracking-[0.15em] text-[#14532D]">
-                      Ingredients
-                    </h4>
+
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#14532D]">
+                        Ingredients
+                      </h4>
+
+                      <span className="text-[10px] text-[#17201A]/35">
+                        {item.ingredients?.length || 0} items
+                      </span>
+                    </div>
 
                     <ul className="mt-3 space-y-2">
-                      {item.ingredients.map((ingredient, ingredientIndex) => (
-                        <li
-                          key={ingredientIndex}
-                          className="flex items-start gap-2 text-sm leading-5 text-[#17201A]/60"
-                        >
-                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#C2412D]" />
-                          <span>{ingredient}</span>
-                        </li>
-                      ))}
+
+                      {(item.ingredients || []).map(
+                        (ingredient, ingredientIndex) => (
+                          <li
+                            key={ingredientIndex}
+                            className="flex items-start gap-2 text-sm leading-5 text-[#17201A]/60"
+                          >
+                            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#C2412D]" />
+
+                            <span>{ingredient}</span>
+                          </li>
+                        )
+                      )}
+
                     </ul>
                   </div>
 
+
                   {/* Method */}
                   <div className="mt-6 border-t border-[#14532D]/10 pt-6">
-                    <h4 className="text-xs font-bold uppercase tracking-[0.15em] text-[#14532D]">
-                      Method
-                    </h4>
+
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#14532D]">
+                        Method
+                      </h4>
+
+                      <span className="flex items-center gap-1 text-[10px] text-[#17201A]/40">
+                        <FaClock className="text-[#C2412D]" />
+
+                        {item.method?.length || 0} Steps
+                      </span>
+                    </div>
+
 
                     <ol className="mt-3 space-y-3">
-                      {item.method.map((step, stepIndex) => (
-                        <li
-                          key={stepIndex}
-                          className="flex items-start gap-3 text-sm leading-6 text-[#17201A]/60"
-                        >
-                          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#F5F7F2] text-[10px] font-bold text-[#14532D]">
-                            {stepIndex + 1}
-                          </span>
 
-                          <span>{step}</span>
-                        </li>
-                      ))}
+                      {(item.method || []).map(
+                        (step, stepIndex) => (
+                          <li
+                            key={stepIndex}
+                            className="flex items-start gap-3 text-sm leading-6 text-[#17201A]/60"
+                          >
+
+                            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#F5F7F2] text-[10px] font-bold text-[#14532D]">
+                              {stepIndex + 1}
+                            </span>
+
+                            <span>{step}</span>
+
+                          </li>
+                        )
+                      )}
+
                     </ol>
                   </div>
 
-                  {/* Favorite */}
+
+                  {/* Favorite Button */}
                   <button
                     type="button"
                     onClick={handleFavoriteBtn}
-                    className="mt-7 flex w-full items-center justify-center gap-3 rounded-xl border border-[#14532D]/15 px-5 py-3 text-sm font-bold text-[#14532D] transition-all duration-200 hover:border-[#C2412D] hover:bg-[#C2412D] hover:text-white"
+                    className="mt-7 flex w-full items-center justify-center gap-2 rounded-xl border border-[#14532D]/15 px-4 py-3 text-xs font-bold text-[#14532D] transition-all duration-200 hover:border-[#C2412D] hover:bg-[#C2412D] hover:text-white"
                   >
-                    <FaHeart className="text-sm" />
+                    <FaHeart className="text-[11px]" />
+
                     <span>Add to Favorite</span>
-                    <FaArrowRight className="text-xs" />
+
+                    <FaArrowRight className="ml-1 text-[9px]" />
                   </button>
+
                 </div>
               </article>
             ))}
+
           </div>
+
+
+          {/* Empty State */}
+          {!recipe.length && (
+            <div className="rounded-2xl border border-[#14532D]/10 bg-white px-6 py-12 text-center">
+              <p className="text-sm text-[#17201A]/50">
+                No recipes available for this chef.
+              </p>
+            </div>
+          )}
+
         </div>
       </section>
 
-      {/* Toast */}
+
+      {/* ==================================================
+          TOAST
+      ================================================== */}
       <ToastContainer
         position="bottom-right"
         autoClose={2000}
         hideProgressBar
-        theme="light" 
+        theme="light"
       />
+
     </main>
   );
 };
