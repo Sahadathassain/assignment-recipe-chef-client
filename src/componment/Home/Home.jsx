@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import ChefSlider from "../Chef/ChefSlider";
 import ChefCard from "../Chef/ChefCard";
 import ChefDoing from "../Chef/ChefDoing";
-import ChefLearn from "../Chef/ChefLearn";
 
+import CulinaryStyles from "../Explore Culinary Styles/CulinaryStyles";
+import ChefStories from "../Stories Behind the Dishes/ChefStories";
+import PopularRecipes from "../Meet the Community/PopularRecipes";
+import CommunityCTA from "../Community CTA/CommunityCTA";
 const Home = () => {
   const [chifslider, setChifSlider] = useState([]);
 
@@ -32,6 +35,10 @@ const Home = () => {
       {/* Hero Carousel - Only 5 Chefs */}
       <ChefSlider chifslider={carouselChefs} />
 
+      <CulinaryStyles chifslider={chifslider} />
+
+      <ChefStories chifslider={chifslider} />
+
       {/* All Chefs */}
       <ChefCard chifslider={chifslider} />
 
@@ -39,7 +46,9 @@ const Home = () => {
       <ChefDoing chifslider={chifslider} />
 
       {/* Popular Recipes */}
-      <ChefLearn />
+    
+      <PopularRecipes />
+      <CommunityCTA chifslider={chifslider} />
     </main>
   );
 };

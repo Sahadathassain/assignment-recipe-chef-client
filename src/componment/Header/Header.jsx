@@ -9,7 +9,7 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((prev) => !prev);
   };
 
   const closeMenu = () => {
@@ -17,66 +17,82 @@ function Header() {
   };
 
   const navLinkStyle = ({ isActive }) =>
-    `relative block px-3 py-2 text-sm font-semibold transition-colors duration-200
-    ${
+    `relative px-3 py-2 text-sm font-medium transition-colors duration-200 ${
       isActive
         ? "text-[#C2412D]"
-        : "text-[#17201A] hover:text-[#C2412D]"
+        : "text-[#17201A]/75 hover:text-[#C2412D]"
     }`;
 
   return (
     <header className="sticky top-0 z-50 border-b border-[#14532D]/10 bg-[#F5F7F2]/95 backdrop-blur-md">
-      <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between">
-          
-          {/* Logo */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-[72px] items-center justify-between">
+
+          {/* =========================
+              LOGO
+          ========================== */}
           <Link
             to="/"
             onClick={closeMenu}
             className="group flex items-center gap-2.5"
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#14532D] transition-transform duration-300 group-hover:scale-105">
-              <SiCodechef className="text-xl text-white" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#14532D] transition-transform duration-200 group-hover:scale-105">
+              <SiCodechef className="text-lg text-white" />
             </div>
 
             <div>
-              <span className="block text-lg font-bold leading-tight tracking-tight text-[#17201A] sm:text-xl">
+              <span className="block text-base font-bold leading-tight tracking-tight text-[#17201A] sm:text-lg">
                 Bangladesh Chef
               </span>
-              <span className="hidden text-[10px] font-medium uppercase tracking-[0.2em] text-[#14532D]/70 sm:block">
+
+              <span className="hidden text-[9px] font-medium uppercase tracking-[0.18em] text-[#14532D]/65 sm:block">
                 Taste • Tradition • Talent
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden items-center gap-2 sm:flex">
-            <NavLink to="/" end className={navLinkStyle}>
+          {/* =========================
+              DESKTOP NAVIGATION
+          ========================== */}
+          <nav className="hidden items-center sm:flex">
+
+            <NavLink
+              to="/"
+              end
+              className={navLinkStyle}
+            >
               Home
             </NavLink>
 
-            <NavLink to="/blogs" end className={navLinkStyle}>
+            <NavLink
+              to="/blogs"
+              className={navLinkStyle}
+            >
               Blog
             </NavLink>
 
             {user ? (
-              <div className="ml-3 flex items-center gap-3 border-l border-[#14532D]/15 pl-5">
+              <div className="ml-4 flex items-center gap-3 border-l border-[#14532D]/10 pl-4">
+
+                {/* Profile */}
                 {user.photoURL ? (
                   <img
                     src={user.photoURL}
                     alt="Profile"
                     title={user.displayName || "Profile"}
-                    className="h-9 w-9 rounded-full object-cover ring-2 ring-white shadow-sm"
+                    className="h-8 w-8 rounded-full object-cover ring-2 ring-white"
                   />
                 ) : (
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#14532D] text-sm font-bold text-white">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#14532D] text-xs font-bold text-white">
                     {user.displayName?.charAt(0)?.toUpperCase() || "U"}
                   </div>
                 )}
 
+                {/* Logout */}
                 <button
+                  type="button"
                   onClick={logOut}
-                  className="rounded-full border border-[#14532D]/20 px-4 py-2 text-sm font-semibold text-[#14532D] transition-all duration-200 hover:border-[#C2412D] hover:bg-[#C2412D] hover:text-white"
+                  className="rounded-full border border-[#14532D]/20 px-4 py-2 text-xs font-semibold text-[#14532D] transition-all duration-200 hover:border-[#C2412D] hover:bg-[#C2412D] hover:text-white"
                 >
                   Logout
                 </button>
@@ -84,33 +100,43 @@ function Header() {
             ) : (
               <NavLink
                 to="/login"
-                end
-                className="ml-3 rounded-full bg-[#14532D] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#0f4225] hover:shadow-md"
+                className="ml-4 rounded-full bg-[#14532D] px-5 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:bg-[#0f4225] hover:shadow-sm"
               >
                 Login
               </NavLink>
             )}
           </nav>
 
-          {/* Mobile Menu Button */}
+          {/* =========================
+              MOBILE BUTTON
+          ========================== */}
           <button
             type="button"
             onClick={toggleMenu}
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}
-            className="flex h-10 w-10 items-center justify-center rounded-xl text-[#14532D] transition-colors hover:bg-[#14532D]/10 sm:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-[#14532D] transition-colors hover:bg-[#14532D]/10 sm:hidden"
           >
-            {isOpen ? <FaTimes /> : <FaBars />}
+            {isOpen ? (
+              <FaTimes className="text-lg" />
+            ) : (
+              <FaBars className="text-lg" />
+            )}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* =========================
+            MOBILE NAVIGATION
+        ========================== */}
         <div
           className={`overflow-hidden transition-all duration-300 sm:hidden ${
-            isOpen ? "max-h-96 pb-5 opacity-100" : "max-h-0 opacity-0"
+            isOpen
+              ? "max-h-96 pb-4 opacity-100"
+              : "max-h-0 opacity-0"
           }`}
         >
-          <nav className="rounded-2xl border border-[#14532D]/10 bg-white p-3 shadow-sm">
+          <nav className="rounded-xl border border-[#14532D]/10 bg-white p-2 shadow-sm">
+
             <NavLink
               to="/"
               end
@@ -122,7 +148,6 @@ function Header() {
 
             <NavLink
               to="/blogs"
-              end
               onClick={closeMenu}
               className={navLinkStyle}
             >
@@ -131,15 +156,16 @@ function Header() {
 
             {user ? (
               <div className="mt-2 flex items-center justify-between border-t border-[#14532D]/10 px-3 pt-3">
-                <div className="flex items-center gap-3">
+
+                <div className="flex min-w-0 items-center gap-3">
                   {user.photoURL ? (
                     <img
                       src={user.photoURL}
                       alt="Profile"
-                      className="h-9 w-9 rounded-full object-cover"
+                      className="h-8 w-8 shrink-0 rounded-full object-cover"
                     />
                   ) : (
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#14532D] text-sm font-bold text-white">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#14532D] text-xs font-bold text-white">
                       {user.displayName?.charAt(0)?.toUpperCase() || "U"}
                     </div>
                   )}
@@ -150,11 +176,12 @@ function Header() {
                 </div>
 
                 <button
+                  type="button"
                   onClick={() => {
                     logOut();
                     closeMenu();
                   }}
-                  className="rounded-full bg-[#C2412D] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#a93425]"
+                  className="rounded-full bg-[#C2412D] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#a93425]"
                 >
                   Logout
                 </button>
@@ -162,9 +189,8 @@ function Header() {
             ) : (
               <NavLink
                 to="/login"
-                end
                 onClick={closeMenu}
-                className="mt-2 block rounded-xl bg-[#14532D] px-4 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-[#0f4225]"
+                className="mt-2 block rounded-lg bg-[#14532D] px-4 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-[#0f4225]"
               >
                 Login
               </NavLink>
