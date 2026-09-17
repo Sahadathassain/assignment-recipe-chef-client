@@ -5,10 +5,9 @@ import {
   getAuth,
   GoogleAuthProvider,
   GithubAuthProvider,
-  getRedirectResult,
   onAuthStateChanged,
   signInWithEmailAndPassword,
-  signInWithRedirect,
+  signInWithPopup,
   signOut,
   updateProfile,
 } from "firebase/auth";
@@ -41,15 +40,13 @@ const AuthProvider = ({ children }) => {
   // Google Login
   const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
-
-    return signInWithRedirect(auth, provider);
+    return signInWithPopup(auth, provider);
   };
 
   // GitHub Login
   const signInWithGithub = () => {
     const provider = new GithubAuthProvider();
-
-    return signInWithRedirect(auth, provider);
+    return signInWithPopup(auth, provider);
   };
 
   // Update user profile
@@ -65,20 +62,6 @@ const AuthProvider = ({ children }) => {
       photoURL: photo,
     });
   };
-
-  // Check redirect login result
-  useEffect(() => {
-    getRedirectResult(auth)
-      .then((result) => {
-        if (result?.user) {
-          console.log("Redirect login successful:", result.user);
-          setUser(result.user);
-        }
-      })
-      .catch((error) => {
-        console.error("Redirect login error:", error);
-      });
-  }, []);
 
   // Firebase authentication state
   useEffect(() => {
